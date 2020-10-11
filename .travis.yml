@@ -7,4 +7,10 @@ before_install
   - source $HOME/google-cloud-sdk/path.bash.inc # another command to configure/setup google cloud on machine.
   - gcloud components update kubectl # installing kubectl so we can later kubectl command.
   - gcloud auth activate-service-account --key-file service-account.json # tells google cloud that who we are
-
+  - gcloud config set project forward-chess-292120 #this project name is from your google cloud id which can see opposite to your project_name multi-k8s
+  - gcloud config set compute/zone us-central1-c # specifies the zone from your google cloud
+  - gcloud container clusters get-credentials multi-cluster # specifiy project name
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t zafar/react-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true zafar/react-test npm test
