@@ -15,6 +15,7 @@ before_install:
   - gcloud config set project forward-chess-292120 #this project name is from your google cloud id which can see opposite to your project_name multi-k8s
   - gcloud config set compute/zone us-central1-c # specifies the zone from your google cloud
   - gcloud auth list # to debug i am adding this command
+  - echo $(gcloud auth list)
   - gcloud container clusters get-credentials multi-cluster # specifiy project name
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t zafar/react-test -f ./client/Dockerfile.dev ./client
