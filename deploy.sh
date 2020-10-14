@@ -1,3 +1,4 @@
+#deploy script
 docker build -t zafarchaudry/multi-client:latest -t zafarchaudry/multi-client:$SHA -f ./client/Dockerfile ./client
 docker build -t zafarchaudry/multi-server:latest -t zafarchaudry/multi-server:$SHA -f ./server/Dockerfile ./server
 docker build -t zafarchaudry/multi-worker:latest -t zafarchaudry/multi-worker:$SHA -f ./worker/Dockerfile ./worker
