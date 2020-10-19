@@ -6,9 +6,28 @@ metadata:
     kubernetes.io/ingress.class: 'nginx'
     nginx.ingress.kubernetes.io/use-regex: 'true'
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    certmanager.io/custer-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true' # tells to do redirection from http to https.
 spec:
+  tls:
+    - hosts:
+        - k8s-multi.com
+        - www.k8s-multi.com
+      secretName: k8s-multi-com #got it from certificate.yaml
   rules:
-    - http:
+    - host: k8s-multi.com #added this line in lecture 31.
+      http:
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: client-cluster-ip-service
+              servicePort: 3000
+          - path: /api/?(.*)
+            backend:
+              serviceName: server-cluster-ip-service
+              servicePort: 5000
+    - host: www.k8s-multi.com #This upto end were done in lecture 312
+      http:
         paths:
           - path: /?(.*)
             backend:
